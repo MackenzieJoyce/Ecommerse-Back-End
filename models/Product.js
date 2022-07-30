@@ -39,7 +39,8 @@ Product.init(
       type: DataTypes.INTERGER,
       references: {
         model: 'category',
-        key: id
+        key: id,
+        unique: false
       }
     }
   },
