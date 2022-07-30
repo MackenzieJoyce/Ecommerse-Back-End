@@ -1,5 +1,5 @@
-const router = require('express').Router();
-const { Tag, Product, ProductTag } = require('../../models');
+const router = require('express').Router()
+const { Tag, Product, ProductTag } = require('../../models')
 
 // The `/api/tags` endpoint
 
@@ -56,15 +56,16 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a tag by its `id` value
-  try { 
-    const tagUpdate = await Tag.update(req.params.id, { include: [
-      {
-        model: Product,
-        attributes: ['id', 'product_name', 'price', 'stock', 'tag_id']
-      }
-    ]
+  try {
+    const tagUpdate = await Tag.update(req.params.id, {
+      include: [
+        {
+          model: Product,
+          attributes: ['id', 'product_name', 'price', 'stock', 'tag_id']
+        }
+      ]
     })
 
     if (!tagData) {
@@ -97,4 +98,4 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-module.exports = router;
+module.exports = router
