@@ -35,6 +35,11 @@ router.get('/:id', async (req, res) => {
       ]
     })
 
+    if (!categoryData) { 
+      res.status(404).json({ message: 'No location found with this id' })
+      return
+    }
+
     res.status(200).json(categoryFind).json(categoryFind)
   } catch (err) {
     res.status(500).json(err)
@@ -43,6 +48,12 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', (req, res) => {
   // create a new category
+  try { 
+    const categoryData = await Category.create(req.body)
+    res.status(200).json(categoryData)
+  } catch (err) { 
+    res.status(400).json(err)
+  }
 })
 
 router.put('/:id', (req, res) => {
@@ -51,6 +62,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
+
 })
 
 module.exports = router
