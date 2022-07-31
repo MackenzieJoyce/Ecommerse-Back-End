@@ -62,13 +62,10 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   // update a tag by its `id` value
   try {
-    const tagUpdate = await Tag.update(req.params.id, {
-      include: [
-        {
-          model: Product,
-          attributes: ['id', 'product_name', 'price', 'stock', 'tag_id']
-        }
-      ]
+    const tagUpdate = await Tag.update(req.body, {
+      where: {
+        id: req.params.id
+      }
     })
 
     if (!tagUpdate) {
