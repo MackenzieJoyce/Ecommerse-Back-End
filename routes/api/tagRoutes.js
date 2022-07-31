@@ -7,11 +7,13 @@ router.get('/', async (req, res) => {
   // find all tags
   try {
     const tagData = await Tag.findAll({
+      attributes: ['id', 'tag_name'],
       include: [
         {
           model: Product,
           // be sure to include its associated Products
-          attributes: ['id', 'product_name', 'price', 'stock', 'tag_id']
+          attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
+          through: 'ProductTag'
         }
       ]
     })
@@ -30,12 +32,13 @@ router.get('/:id', async (req, res) => {
         {
           model: Product,
           // be sure to include its associated Products
-          attributes: ['id', 'product_name', 'price', 'stock', 'tag_id']
+          attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
+          through: 'ProductTag'
         }
       ]
     })
 
-    if (!tagData) {
+    if (!tagFind) {
       res.status(404).json({ message: 'No tag found with this id' })
       return
     }
@@ -68,11 +71,11 @@ router.put('/:id', async (req, res) => {
       ]
     })
 
-    if (!tagData) {
+    if (!tagUpdate) {
       res.status(404).json({ message: 'No tag found with this id' })
       return
     }
-    res.status(200).json(tagData)
+    res.status(200).json(tagUpdate)
   } catch (err) {
     res.status(500).json(err)
   }
